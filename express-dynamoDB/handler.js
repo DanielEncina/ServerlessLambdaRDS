@@ -5,8 +5,18 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
 
-const dynameDB = new AWS.DynamoDB.DocumentClient();
 const USERS_TABLE = process.env.USERS_TABLE;
+const IS_OFFLINE = process.env.IS_OFFLINE
+let dynamoDB;
+
+if (IS_OFFLINE === 'true') {
+  dynamoDB = new AWS.DynamoDB.DocumentClient({
+    region: 'localhost',
+    endpoint: 'http://localhost:8000'
+  });
+} else {
+  dynamoDB = new AWS.DynamoDB.DocumentClient();
+}
 
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -25,7 +35,7 @@ app.post('/users', (req, res) => {
     }
   };
 
-  dynameDB.put(params, (error) => {
+  dynamoDB.put(params, (error) => {
     if (error) {
       console.log(error);
       res.status(400).json({
@@ -42,7 +52,7 @@ app.get('/users', (req, res) => {
     TableName: USERS_TABLE
   };
 
-  dynameDB.scan(params, (error, result) => {
+  dynamoDB.scan(params, (error, result) => {
     if (error) {
       console.log(error);
       res.status(400).json({
@@ -67,7 +77,7 @@ app.get('/users/:userId', (req, res) => {
     }
   };
 
-  dynameDB.get(params, (error, result) => {
+  dynamoDB.get(params, (error, result) => {
     if (error) {
       console.log(error);
       return res.status(400).json({

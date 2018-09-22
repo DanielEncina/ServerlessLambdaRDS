@@ -15,6 +15,13 @@ service: curso-sls-express # NOTE: update this with your service name
 
 custom:
   tableName: 'users-table-${self:provider.stage}'
+  dynameDB:
+    start:
+      migrate: true
+
+plugins:
+  - serverless-offline
+  - serverless-dynamodb-local
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
