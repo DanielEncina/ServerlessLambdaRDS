@@ -5,7 +5,7 @@ const configDB = {
   user: 'curso_sls',
   password: 'fucktazma0102',
   port: '3306',
-  database: 'Administrador',
+  database: 'curso_sls',
   debug: true
 };
 
