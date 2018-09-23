@@ -77,11 +77,24 @@ functions:
           path: todos/{todo}
           method: get
   create:
-      handler: crud/todos.create
-      events:
-        - http:
-            path: todos
-            method: post
+    handler: crud/todos.create
+    events:
+      - http:
+          path: todos
+          method: post
+  update:
+    handler: crud/todos.update
+    events:
+      - http:
+          path: todos/{todo}
+          method: put
+  delete:
+    handler: crud/todos.delete
+    events:
+      - http:
+          path: todos/{todo}
+          method: delete
+                
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
